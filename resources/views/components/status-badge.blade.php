@@ -1,11 +1,11 @@
 {{-- resources/views/components/status-badge.blade.php --}}
 @php
     $warnaMap = [
-        'green'  => 'bg-green-100 text-green-700',
-        'blue'   => 'bg-blue-100 text-blue-700',
-        'yellow' => 'bg-yellow-100 text-yellow-700',
-        'red'    => 'bg-red-100 text-red-700',
-        'gray'   => 'bg-gray-100 text-gray-600',
+        'green'  => 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20',
+        'blue'   => 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+        'yellow' => 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
+        'red'    => 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+        'gray'   => 'bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/20',
     ];
 @endphp
 

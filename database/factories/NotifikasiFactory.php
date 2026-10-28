@@ -18,7 +18,7 @@ class NotifikasiFactory extends Factory
     public function definition(): array
     {
         return [
-            'pesan' => fake()->sentence(), 'sudah_dibaca' => false
+            'pesan' => fake()->sentence(), 'sudah_dibaca' => false,
         ];
     }
 }

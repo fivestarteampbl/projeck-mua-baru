@@ -10,5 +10,5 @@ test('registration endpoint is not avaible', function () {
         'email' => 'test@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
-    ]) ->assertStatus(404);
+    ])->assertStatus(404);
 });

@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Requests/StoreGaleriRequest.php
 
 namespace App\Http\Requests;
@@ -15,11 +16,11 @@ class StoreGaleriRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'judul'     => ['required', 'string', 'max:50'],
+            'judul' => ['required', 'string', 'max:50'],
             'deskripsi' => ['required', 'string', 'max:100'],
-            'kategori'  => ['required', 'string', 'max:50'],
-            'foto'      => [$this->isMethod('post') ? 'required' : 'nullable', 'image', 'mimes:jpg,png', 'max:4096'],
-            'aktif'     => ['boolean'],
+            'kategori' => ['required', 'string', 'max:50'],
+            'foto' => [$this->isMethod('post') ? 'required' : 'nullable', 'image', 'mimes:jpg,png', 'max:4096'],
+            'aktif' => ['boolean'],
         ];
     }
 }

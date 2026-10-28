@@ -19,20 +19,20 @@ return new class extends Migration
             $table->string('nama_pelanggan', 50);
             $table->string('no_hp', 15);
             $table->string('email');
-            //-------- Detail Acara --------
+            // -------- Detail Acara --------
             $table->date('tanggal_acara');
             $table->time('waktu_acara');
             $table->string('lokasi_acara', 100);
             $table->text('catatan_tambahan')->nullable();
-            //-------- Pembayaran --------
+            // -------- Pembayaran --------
             $table->unsignedBigInteger('total_harga');
             $table->unsignedBigInteger('dp');
-            //-------- Status Booking --------
+            // -------- Status Booking --------
             $table->string('status_booking')->default('pending');
             $table->string('status_pembayaran')->default('belum_dp');
             $table->string('metode_pembayaran')->nullable();
             $table->string('payment_qr')->nullable();
-            //-------- Testimoni --------
+            // -------- Testimoni --------
             $table->string('token_testimoni')->nullable()->unique();
             $table->string('expired_testimoni')->nullable();
             $table->timestamps();
@@ -47,4 +47,3 @@ return new class extends Migration
         Schema::dropIfExists('bookings');
     }
 };
-

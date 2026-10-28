@@ -13,7 +13,7 @@ class Layanan extends Model
         'nama_layanan',
         'deskripsi',
         'foto_layanan',
-        'aktif'
+        'aktif',
     ];
 
     protected function casts(): array

@@ -21,8 +21,9 @@ class GaleriController extends Controller
     {
         Galeri::create([
             ...$request->safe()->except('foto'),
-            'foto'    => $foto->simpan($request->file('foto'), 'galeri'),
-            'urutan'  => (Galeri::max('urutan') ?? 0) + 1,
+            'aktif' => $request->boolean('aktif'),
+            'foto' => $foto->simpan($request->file('foto'), 'galeri'),
+            'urutan' => (Galeri::max('urutan') ?? 0) + 1,
         ]);
 
         return back()->with('success', 'Foto berhasil ditambahkan.');
@@ -30,7 +31,10 @@ class GaleriController extends Controller
 
     public function update(UpdateGaleriRequest $request, Galeri $galeri, FotoStorage $foto): RedirectResponse
     {
-        $data = $request->safe()->except('foto');
+        $data = [
+            ...$request->safe()->except('foto'),
+            'aktif' => $request->boolean('aktif'),
+        ];
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $foto->ganti($galeri->foto, $request->file('foto'), 'galeri');

@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Requests/UpdatePricelistRequest.php
 
 namespace App\Http\Requests;

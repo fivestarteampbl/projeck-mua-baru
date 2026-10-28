@@ -15,10 +15,10 @@ class Notifikasi extends Model
 
     protected $fillable = [
         'pesan',
-        'sudah_dibaca'
+        'sudah_dibaca',
     ];
 
-    protected function casts(): array 
+    protected function casts(): array
     {
         return ['sudah_dibaca' => 'boolean'];
     }

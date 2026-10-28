@@ -16,14 +16,14 @@ class Testimoni extends Model
         'foto',
         'rating',
         'ulasan',
-        'status'
+        'status',
     ];
 
     protected function casts(): array
     {
-        return[
-            'rating'    => 'integer',
-            'status'    => TestimoniStatus::class,
+        return [
+            'rating' => 'integer',
+            'status' => TestimoniStatus::class,
         ];
     }
 
@@ -36,5 +36,4 @@ class Testimoni extends Model
     {
         return $query->where('status', TestimoniStatus::Ditampilkan);
     }
-
 }

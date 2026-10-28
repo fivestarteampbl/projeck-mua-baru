@@ -16,10 +16,11 @@ class Booking extends Model
 {
     //
     public const PREFIX_KODE = 'MUA-';
+
     public const PANJANG_KODE = 5;
+
     public const DURASI_TESTIMONI_JAM = 24;
 
- 
     protected $fillable = [
         'pricelist_id',
         'nama_pelanggan',
@@ -36,28 +37,27 @@ class Booking extends Model
         'metode_pembayaran',
         'payment_qr',
         'token_testimoni',
-        'expired_testimoni'
-
+        'expired_testimoni',
     ];
 
     protected function casts(): array
     {
         return [
-            'tanggal_acara'        => 'date',
-            'total_harga'          => 'integer',
-            'dp'                   => 'integer',
-            'status_booking'       => BookingStatus::class,
-            'status_pembayaran'    => PaymentStatus::class,
-            'expired_testimoni'   => 'datetime'
+            'tanggal_acara' => 'date',
+            'total_harga' => 'integer',
+            'dp' => 'integer',
+            'status_booking' => BookingStatus::class,
+            'status_pembayaran' => PaymentStatus::class,
+            'expired_testimoni' => 'datetime',
         ];
     }
 
     private static function buatKodeUnik(): string
     {
         do {
-            $kode = self::PREFIX_KODE . Str::upper(Str::random(self::PANJANG_KODE));
+            $kode = self::PREFIX_KODE.Str::upper(Str::random(self::PANJANG_KODE));
         } while (self::where('kode_booking', $kode)->exists());
-        
+
         return $kode;
     }
 
@@ -84,7 +84,6 @@ class Booking extends Model
         return Attribute::set(fn (string $value) => self::formatWaktu($value));
     }
 
-
     public function pricelist(): BelongsTo
     {
         return $this->belongsTo(Pricelist::class);
@@ -93,17 +92,19 @@ class Booking extends Model
     public function testimoni(): HasOne
     {
         return $this->hasOne(Testimoni::class);
-
     }
 
     public function bukaTestimoni(): void
     {
+        if ($this->token_testimoni !== null) {
+            return;
+        }
+
         $this->update([
-            'token_testimoni'   => Str::random(40),
-            'expired_testimoni' =>now()->addHours(self::DURASI_TESTIMONI_JAM),
+            'token_testimoni' => Str::random(40),
+            'expired_testimoni' => now()->addHours(self::DURASI_TESTIMONI_JAM),
         ]);
     }
-
 
     public function sudahTestimoni(): bool
     {
@@ -117,7 +118,7 @@ class Booking extends Model
             && ! $this->sudahTestimoni();
     }
 
-    public function scopeMenempatiJadwal(BUilder $query): Builder
+    public function scopeMenempatiJadwal(Builder $query): Builder
     {
         return $query->whereIn('status_booking', BookingStatus::menempatiJadwal());
     }
@@ -125,20 +126,20 @@ class Booking extends Model
     public function scopePadaJadwal(Builder $query, string $tanggal, string $waktu): Builder
     {
         return $query
-        ->whereDate('tanggal_acara', $tanggal)
-        ->where('waktu_acara', self::formatWaktu($waktu));
+            ->whereDate('tanggal_acara', $tanggal)
+            ->where('waktu_acara', self::formatWaktu($waktu));
     }
 
-    public function scopeCari(Builder $query, string $kata): Builder 
+    public function scopeCari(Builder $query, string $kata): Builder
     {
         $kata = self::bersihkanWildcard($kata);
 
-        return $query->when($kata !=='', fn (Builder $q) => $q->where(
+        return $query->when($kata !== '', fn (Builder $q) => $q->where(
             fn (Builder $q) => $q
-                ->where('nama_pelanggan', 'like', "%{$kata}%")    
-                ->orwhere('no_hp', 'like', "%{$kata}%")    
-                ->orwhere('email', 'like', "%{$kata}%")    
-                ->orwhere('kode_booking', 'like', "%{$kata}%")    
+                ->where('nama_pelanggan', 'like', "%{$kata}%")
+                ->orWhere('no_hp', 'like', "%{$kata}%")
+                ->orWhere('email', 'like', "%{$kata}%")
+                ->orWhere('kode_booking', 'like', "%{$kata}%")
         ));
     }
 

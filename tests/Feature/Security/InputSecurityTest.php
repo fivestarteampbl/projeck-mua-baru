@@ -2,6 +2,7 @@
 
 // tests/Feature/Security/InputSecurityTest.php
 
+use App\Models\Booking;
 use App\Models\Galeri;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,7 @@ test('pencarian booking aman dari sql injection', function () {
         ->assertOk()
         ->assertDontSee('Budi Santoso');
 
-    expect(App\Models\Booking::count())->toBe(1);
+    expect(Booking::count())->toBe(1);
 });
 
 test('wildcard like dianggap karakter biasa bukan pola', function () {
@@ -71,10 +72,10 @@ test('upload file skrip ditolak', function () {
 
     $this->actingAs($admin)
         ->post(route('admin.galeri.store'), [
-            'judul'     => 'Shell',
+            'judul' => 'Shell',
             'deskripsi' => 'x',
-            'kategori'  => 'Wedding',
-            'foto'      => UploadedFile::fake()->create('shell.php', 10, 'application/x-php'),
+            'kategori' => 'Wedding',
+            'foto' => UploadedFile::fake()->create('shell.php', 10, 'application/x-php'),
         ])
         ->assertSessionHasErrors('foto');
 
@@ -87,10 +88,10 @@ test('upload svg ditolak', function () {
 
     $this->actingAs($admin)
         ->post(route('admin.galeri.store'), [
-            'judul'     => 'Vektor',
+            'judul' => 'Vektor',
             'deskripsi' => 'x',
-            'kategori'  => 'Wedding',
-            'foto'      => UploadedFile::fake()->create('vektor.svg', 10, 'image/svg+xml'),
+            'kategori' => 'Wedding',
+            'foto' => UploadedFile::fake()->create('vektor.svg', 10, 'image/svg+xml'),
         ])
         ->assertSessionHasErrors('foto');
 

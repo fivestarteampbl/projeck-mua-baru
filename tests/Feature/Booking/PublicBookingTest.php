@@ -1,9 +1,12 @@
 <?php
+
 // tests/Feature/Booking/PublicBookingTest.php
 
 use App\Enums\BookingStatus;
+use App\Mail\BookingDibuat;
 use App\Models\Booking;
 use App\Models\Notifikasi;
+use Illuminate\Support\Facades\Mail;
 
 test('booking berhasil dibuat dengan total, dp, dan kode otomatis', function () {
     $paket = buatPaket();
@@ -38,7 +41,6 @@ test('jadwal yang sama tidak bisa dibooking dua kali', function () {
     expect(Booking::count())->toBe(1);
 });
 
-
 test('jadwal kembali tersedia setelah booking ditolak', function () {
     $paket = buatPaket();
     $data = dataBooking($paket);
@@ -66,6 +68,26 @@ test('tanggal acara harus setelah hari ini', function () {
     $this->post(route('booking.store'), dataBooking($paket, [
         'tanggal_acara' => now()->toDateString(),
     ]))->assertSessionHasErrors('tanggal_acara');
+});
+
+test('booking mengirim email konfirmasi ke pelanggan', function () {
+    Mail::fake();
+    $paket = buatPaket();
+
+    $this->post(route('booking.store'), dataBooking($paket))
+        ->assertSessionHasNoErrors();
+
+    Mail::assertSent(BookingDibuat::class, fn (BookingDibuat $mail) => $mail->hasTo('budi@example.com'));
+});
+
+test('gagal kirim email tidak membatalkan booking', function () {
+    Mail::shouldReceive('to')->andThrow(new RuntimeException('SMTP mati'));
+    $paket = buatPaket();
+
+    $this->post(route('booking.store'), dataBooking($paket))
+        ->assertSessionHasNoErrors();
+
+    expect(Booking::count())->toBe(1);
 });
 
 test('cek booking mengembalikan status dalam json', function () {

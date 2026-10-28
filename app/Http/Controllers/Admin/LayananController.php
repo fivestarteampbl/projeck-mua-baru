@@ -21,10 +21,13 @@ class LayananController extends Controller
 
     public function store(StoreLayananRequest $request, FotoStorage $foto): RedirectResponse
     {
-        $data = $request->safe()->except('foto');
+        $data = [
+            ...$request->safe()->except('foto'),
+            'aktif' => $request->boolean('aktif'),
+        ];
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $foto->simpan($request->file('foto'), 'layanan');
+            $data['foto_layanan'] = $foto->simpan($request->file('foto'), 'layanan');
         }
 
         Layanan::create($data);
@@ -34,10 +37,13 @@ class LayananController extends Controller
 
     public function update(UpdateLayananRequest $request, Layanan $layanan, FotoStorage $foto): RedirectResponse
     {
-        $data = $request->safe()->except('foto');
+        $data = [
+            ...$request->safe()->except('foto'),
+            'aktif' => $request->boolean('aktif'),
+        ];
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $foto->ganti($layanan->foto, $request->file('foto'), 'layanan');
+            $data['foto_layanan'] = $foto->ganti($layanan->foto_layanan, $request->file('foto'), 'layanan');
         }
 
         $layanan->update($data);

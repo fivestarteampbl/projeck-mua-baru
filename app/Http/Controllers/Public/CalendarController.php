@@ -27,7 +27,7 @@ class CalendarController extends Controller
             ->get(['tanggal_acara', 'waktu_acara'])
             ->map(fn (Booking $b) => [
                 'tanggal_acara' => $b->tanggal_acara->toDateString(),
-                'waktu_acara'   => $b->waktu_acara,
+                'waktu_acara' => $b->waktu_acara,
             ]);
 
         return response()->json(['events' => $events]);

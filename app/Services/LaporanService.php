@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services;
 
 use App\Enums\BookingStatus;
@@ -10,7 +9,6 @@ use Illuminate\Support\Collection;
 
 class LaporanService
 {
-    
     public function bulanan(int $bulan, int $tahun): array
     {
         $query = fn (): Builder => Booking::query()
@@ -23,11 +21,11 @@ class LaporanService
         }
 
         return [
-            'total'      => $query()->count(),
+            'total' => $query()->count(),
             'pendapatan' => (int) (clone $query())->where('status_booking', BookingStatus::Selesai)->sum('total_harga'),
-            'perStatus'  => $perStatus,
-            'bookings'   => $query()->with('pricelist.layanan')->latest('tanggal_acara')->get(),
-            'perPaket'   => $this->perPaket($bulan, $tahun),
+            'perStatus' => $perStatus,
+            'bookings' => $query()->with('pricelist.layanan')->latest('tanggal_acara')->get(),
+            'perPaket' => $this->perPaket($bulan, $tahun),
         ];
     }
 

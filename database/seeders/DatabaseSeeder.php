@@ -9,6 +9,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
+
     /**
      * Seed the application's database.
      */
@@ -24,5 +25,8 @@ class DatabaseSeeder extends Seeder
                 'role' => User::ROLE_ADMIN,
             ]
         );
+
+        $this->call(LayananPricelistSeeder::class);
+        $this->call(LegacyDataSeeder::class);
     }
 }

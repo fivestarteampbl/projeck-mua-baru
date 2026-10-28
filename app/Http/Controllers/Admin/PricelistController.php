@@ -17,7 +17,7 @@ class PricelistController extends Controller
     public function index(): View
     {
         $pricelists = Pricelist::with('layanan')->latest()->get()->groupBy('layanan.nama_layanan');
-        $layanans   = Layanan::aktif()->get();
+        $layanans = Layanan::aktif()->get();
 
         return view('admin.layanan.index', compact('pricelists', 'layanans'));
     }
@@ -27,7 +27,7 @@ class PricelistController extends Controller
         $data = $request->dataTersimpan();
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $foto->simpan($request->file('foto'), 'pricelist');
+            $data['foto_pricelist'] = $foto->simpan($request->file('foto'), 'pricelist');
         }
 
         Pricelist::create($data);
@@ -40,7 +40,7 @@ class PricelistController extends Controller
         $data = $request->dataTersimpan();
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $foto->ganti($pricelist->foto, $request->file('foto'), 'pricelist');
+            $data['foto_pricelist'] = $foto->ganti($pricelist->foto_pricelist, $request->file('foto'), 'pricelist');
         }
 
         $pricelist->update($data);
@@ -58,7 +58,7 @@ class PricelistController extends Controller
             ]);
         }
 
-        $foto->hapus($pricelist->foto);
+        $foto->hapus($pricelist->foto_pricelist);
 
         return back()->with('success', 'Paket berhasil dihapus.');
     }

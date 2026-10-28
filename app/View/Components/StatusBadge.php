@@ -11,6 +11,7 @@ use Illuminate\View\View;
 class StatusBadge extends Component
 {
     public string $warna;
+
     public string $label;
 
     public function __construct(BookingStatus|PaymentStatus|TestimoniStatus $status)
@@ -23,20 +24,20 @@ class StatusBadge extends Component
     {
         return match (true) {
             $status instanceof BookingStatus => match ($status) {
-                BookingStatus::Pending    => 'yellow',
+                BookingStatus::Pending => 'yellow',
                 BookingStatus::Konfirmasi => 'blue',
-                BookingStatus::Selesai    => 'green',
+                BookingStatus::Selesai => 'green',
                 BookingStatus::Dibatalkan,
-                BookingStatus::Ditolak    => 'red',
+                BookingStatus::Ditolak => 'red',
             },
             $status instanceof PaymentStatus => match ($status) {
                 PaymentStatus::BelumDp => 'red',
-                PaymentStatus::Dp      => 'blue',
-                PaymentStatus::Lunas   => 'green',
+                PaymentStatus::Dp => 'blue',
+                PaymentStatus::Lunas => 'green',
             },
             $status instanceof TestimoniStatus => match ($status) {
-                TestimoniStatus::Pending       => 'yellow',
-                TestimoniStatus::Ditampilkan   => 'green',
+                TestimoniStatus::Pending => 'yellow',
+                TestimoniStatus::Ditampilkan => 'green',
                 TestimoniStatus::Disembunyikan => 'gray',
             },
         };

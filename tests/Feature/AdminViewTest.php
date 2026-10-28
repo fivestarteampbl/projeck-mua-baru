@@ -1,4 +1,5 @@
 <?php
+
 // tests/Feature/AdminViewTest.php
 
 use App\Enums\BookingStatus;

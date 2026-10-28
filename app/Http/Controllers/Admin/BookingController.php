@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    public function index(Request $request): view
+    public function index(Request $request): View
     {
         $bookings = Booking::with('pricelist.layanan')
             ->denganStatus($request->enum('status', BookingStatus::class))
@@ -24,7 +24,7 @@ class BookingController extends Controller
         return view('admin.booking.index', compact('bookings'));
     }
 
-    public function show(Booking $booking): view
+    public function show(Booking $booking): View
     {
         $booking->load('pricelist.layanan');
 
@@ -38,6 +38,6 @@ class BookingController extends Controller
 
         return redirect()
             ->route('admin.booking.index')
-            ->with('success', 'Booking berhasl dihapus.');
+            ->with('success', 'Booking berhasil dihapus.');
     }
 }

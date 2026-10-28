@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Booking;
+use App\Models\Layanan;
+use App\Models\Pricelist;
+use App\Models\User;
+use App\Services\BookingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -44,9 +49,9 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function buatPaket(array $layanan = [], array $paket = []): App\Models\Pricelist
+function buatPaket(array $layanan = [], array $paket = []): Pricelist
 {
-    $layanan = App\Models\Layanan::create(array_merge(
+    $layanan = Layanan::create(array_merge(
         ['nama_layanan' => 'Wedding', 'aktif' => true],
         $layanan,
     ));
@@ -57,27 +62,27 @@ function buatPaket(array $layanan = [], array $paket = []): App\Models\Pricelist
     ));
 }
 
-function dataBooking(App\Models\Pricelist $paket, array $override = []): array
+function dataBooking(Pricelist $paket, array $override = []): array
 {
     return array_merge([
-        'pricelist_id'   => $paket->id,
+        'pricelist_id' => $paket->id,
         'nama_pelanggan' => 'Budi',
-        'no_hp'          => '081234567890',
-        'email'          => 'budi@example.com',
-        'tanggal_acara'  => now()->addDays(7)->toDateString(),
-        'waktu_acara'    => '09:00',
-        'lokasi_acara'   => 'Banyuwangi',
+        'no_hp' => '081234567890',
+        'email' => 'budi@example.com',
+        'tanggal_acara' => now()->addDays(7)->toDateString(),
+        'waktu_acara' => '09:00',
+        'lokasi_acara' => 'Banyuwangi',
     ], $override);
 }
 
-function buatBooking(array $override = []): App\Models\Booking
+function buatBooking(array $override = []): Booking
 {
     $paket = buatPaket();
 
-    return app(App\Services\BookingService::class)->buat(dataBooking($paket, $override));
+    return app(BookingService::class)->buat(dataBooking($paket, $override));
 }
 
-function buatAdmin(array $override = []): App\Models\User
+function buatAdmin(array $override = []): User
 {
-    return App\Models\User::factory()->admin()->create($override);
+    return User::factory()->admin()->create($override);
 }

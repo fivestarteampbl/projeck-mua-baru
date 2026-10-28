@@ -19,7 +19,7 @@ class BookingStatusController extends Controller
         try {
             $service->ubah($booking, $request->status());
         } catch (TransisiStatusTidakValidException $e) {
-            return back()->withErrors(['status_booking'  => $e->getMessage()]);
+            return back()->withErrors(['status_booking' => $e->getMessage()]);
         }
 
         return back()->with('success', 'Status booking berhasil diubah.');

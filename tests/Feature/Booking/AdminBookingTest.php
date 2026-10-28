@@ -1,4 +1,5 @@
 <?php
+
 // tests/Feature/Booking/AdminBookingTest.php
 
 use App\Enums\BookingStatus;
@@ -62,7 +63,7 @@ test('admin bisa memperbarui pembayaran dan mengunggah qr', function () {
         ->patch(route('admin.booking.pembayaran', $booking), [
             'status_pembayaran' => 'dp',
             'metode_pembayaran' => 'QRIS',
-            'payment_qr'        => UploadedFile::fake()->image('qr.png'),
+            'payment_qr' => UploadedFile::fake()->image('qr.png'),
         ])
         ->assertSessionHasNoErrors();
 
@@ -78,7 +79,7 @@ test('menghapus booking ikut menghapus file qr', function () {
 
     $this->actingAs($this->admin)->patch(route('admin.booking.pembayaran', $booking), [
         'status_pembayaran' => 'dp',
-        'payment_qr'        => UploadedFile::fake()->image('qr.png'),
+        'payment_qr' => UploadedFile::fake()->image('qr.png'),
     ]);
     $path = $booking->refresh()->payment_qr;
 

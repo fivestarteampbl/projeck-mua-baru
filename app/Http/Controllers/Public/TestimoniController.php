@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTestimoniRequest;
 use App\Models\Booking;
+use App\Models\Notifikasi;
 use App\Services\FotoStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -27,7 +28,7 @@ class TestimoniController extends Controller
         abort_unless($booking->tokenTestimoniValid(), 403, 'Link testimoni tidak berlaku atau sudah kadaluarsa.');
 
         $data = [
-            'booking_id'     => $booking->id,
+            'booking_id' => $booking->id,
             'nama_pelanggan' => $booking->nama_pelanggan,
             ...$request->safe()->except('foto'),
         ];
@@ -37,6 +38,10 @@ class TestimoniController extends Controller
         }
 
         $booking->testimoni()->create($data);
+
+        Notifikasi::create([
+            'pesan' => "{$booking->nama_pelanggan} mengirim testimoni untuk booking {$booking->kode_booking}.",
+        ]);
 
         return redirect()->route('home')->with('success', 'Terima kasih atas testimoni Anda.');
     }

@@ -13,12 +13,11 @@ class BookingTidakDapatDibuatException extends DomainException
 
     public static function paketTidakTersedia(): self
     {
-        return new self('paket ini sudah tidak tersedia.', 'pricelist_id');
+        return new self('Paket ini sudah tidak tersedia.', 'pricelist_id');
     }
 
     public static function jadwalBentrok(): self
     {
-        return new self('jadwal tersebut sudah terisi. Silahkan pilih tanggal atau waktu lainya.', 'waktu_acara');
+        return new self('Jadwal tersebut sudah terisi. Silakan pilih tanggal atau waktu lainnya.', 'waktu_acara');
     }
-
 }

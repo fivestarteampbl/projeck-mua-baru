@@ -15,20 +15,17 @@ use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    public function __construct(private readonly BookingService $bookingService)
-    {
-
-    }
+    public function __construct(private readonly BookingService $bookingService) {}
 
     public function create(Request $request): View
     {
         $layanans = Layanan::aktif()->with('pricelists')->get();
 
-        $paketDipilih = pricelist::with('layanan')->find($request->query('pricelist'));
+        $paketDipilih = Pricelist::with('layanan')->find($request->query('pricelist'));
 
-        if ($paketDipilih && !$paketDipilih->isTersedia()) {
+        if ($paketDipilih && ! $paketDipilih->isTersedia()) {
             $paketDipilih = null;
-        } 
+        }
 
         return view('public.booking/create', compact('layanans', 'paketDipilih'));
     }

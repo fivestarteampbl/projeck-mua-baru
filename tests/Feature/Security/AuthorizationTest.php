@@ -2,6 +2,7 @@
 
 // tests/Feature/Security/AuthorizationTest.php
 
+use App\Models\Layanan;
 use App\Models\User;
 use Illuminate\Routing\Route as RouteClass;
 use Illuminate\Support\Facades\Route;
@@ -50,11 +51,11 @@ test('user biasa tidak bisa membuat kategori layanan', function () {
         ->from(route('admin.layanan-kategori.index'))
         ->post(route('admin.layanan-kategori.store'), [
             'nama_layanan' => 'Wedding',
-            'aktif'        => true,
+            'aktif' => true,
         ])
         ->assertForbidden();
 
-    expect(App\Models\Layanan::where('nama_layanan', 'Wedding')->exists())->toBeFalse();
+    expect(Layanan::where('nama_layanan', 'Wedding')->exists())->toBeFalse();
 });
 
 test('setiap route admin dijaga middleware admin', function () {
@@ -72,9 +73,9 @@ test('user biasa tidak bisa menaikkan dirinya jadi admin lewat form profile', fu
 
     $this->actingAs($pelanggan)
         ->patch(route('profile.update'), [
-            'name'  => 'Pelanggan',
+            'name' => 'Pelanggan',
             'email' => $pelanggan->email,
-            'role'  => 'admin',
+            'role' => 'admin',
         ])
         ->assertRedirect(route('profile.edit'))
         ->assertSessionHasNoErrors();

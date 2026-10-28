@@ -5,23 +5,22 @@ namespace App\Enums;
 enum BookingStatus: string
 {
     //
-    case Pending    = 'pending';
+    case Pending = 'pending';
     case Konfirmasi = 'konfirmasi';
-    case Selesai    = 'selesai';
+    case Selesai = 'selesai';
     case Dibatalkan = 'dibatalkan';
-    case Ditolak    = 'ditolak';
+    case Ditolak = 'ditolak';
 
     public function label(): string
     {
         return match ($this) {
-            self::Pending       => 'pending',
-            self::Konfirmasi    => 'dikonfirmasi',
-            self::Selesai       => 'selesai',
-            self::Dibatalkan     => 'dibatalkan',
-            self::Ditolak       => 'ditolak',
+            self::Pending => 'pending',
+            self::Konfirmasi => 'dikonfirmasi',
+            self::Selesai => 'selesai',
+            self::Dibatalkan => 'dibatalkan',
+            self::Ditolak => 'ditolak',
         };
     }
-
 
     public static function menempatiJadwal(): array
     {
@@ -30,12 +29,12 @@ enum BookingStatus: string
 
     public function statusBerikutnya(): array
     {
-         return match ($this) {
-            self::Pending       => [self::Konfirmasi, self::Ditolak, self::Dibatalkan],
-            self::Konfirmasi    => [self::Selesai, self::Dibatalkan],
+        return match ($this) {
+            self::Pending => [self::Konfirmasi, self::Ditolak, self::Dibatalkan],
+            self::Konfirmasi => [self::Selesai, self::Dibatalkan],
             self::Selesai,
             self::Dibatalkan,
-            self::Ditolak       => []
+            self::Ditolak => []
         };
     }
 

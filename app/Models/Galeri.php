@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Galeri extends Model
 {
     //
-    protected $fillable =  [
+    protected $fillable = [
         'judul',
         'deskripsi',
         'foto',
         'kategori',
         'aktif',
-        'urutan'
+        'urutan',
 
     ];
 
@@ -23,7 +23,7 @@ class Galeri extends Model
         return ['aktif' => 'boolean'];
     }
 
-    public function ScopeAktif(Builder $query): Builder
+    public function scopeAktif(Builder $query): Builder
     {
         return $query->where('aktif', true);
     }

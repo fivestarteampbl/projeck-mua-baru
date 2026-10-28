@@ -19,16 +19,14 @@ class Pricelist extends Model
         'foto_pricelist',
         'isi_paket',
         'syarat_ketentuan',
-        'aktif'
     ];
 
     protected function casts(): array
     {
         return [
-            'harga'             => 'decimal:2',
-            'isi_paket'         => 'array',
-            'syarat_ketentuan'  => 'array',
-            'aktif'             => 'boolean'
+            'harga' => 'decimal:2',
+            'isi_paket' => 'array',
+            'syarat_ketentuan' => 'array',
         ];
     }
 
@@ -52,4 +50,3 @@ class Pricelist extends Model
         return (bool) $this->layanan?->aktif;
     }
 }
-

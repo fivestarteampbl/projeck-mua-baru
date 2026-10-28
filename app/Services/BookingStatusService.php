@@ -17,23 +17,31 @@ class BookingStatusService
         if (! $asal->bisaBerubahKe($tujuan)) {
             throw TransisiStatusTidakValidException::dari($asal, $tujuan);
         }
-    
 
         DB::transaction(function () use ($booking, $tujuan) {
-            $booking->update(['status_booking'  => $tujuan]);
+            $booking->update(['status_booking' => $tujuan]);
 
-            if ($tujuan === BookingStatus::Selesai){
+            if ($tujuan === BookingStatus::Selesai) {
                 $booking->bukaTestimoni();
             }
 
             Notifikasi::create([
-                'pesan' => sprintf(
-                    'Booking %s (%s) berstatus "%s".',
-                    $booking->kode_booking,
-                    $booking->nama_pelanggan,
-                    $tujuan->label(),
-                ),
+                'pesan' => $this->pesanNotifikasi($booking, $tujuan),
             ]);
         });
+    }
+
+    private function pesanNotifikasi(Booking $booking, BookingStatus $tujuan): string
+    {
+        $kode = $booking->kode_booking;
+        $nama = $booking->nama_pelanggan;
+
+        return match ($tujuan) {
+            BookingStatus::Konfirmasi => "Booking {$kode} telah dikonfirmasi. Silakan lakukan pembayaran DP.",
+            BookingStatus::Selesai => "Booking {$kode} ({$nama}) telah selesai.",
+            BookingStatus::Dibatalkan => "Booking {$kode} ({$nama}) dibatalkan.",
+            BookingStatus::Ditolak => "Booking {$kode} ({$nama}) ditolak.",
+            default => "Booking {$kode} ({$nama}) berstatus \"{$tujuan->label()}\".",
+        };
     }
 }

@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Http\Requests\Concerns;
 
 trait ParsesMultilineList
 {
-    
     private function parseMultilineList(?string $text): array
     {
         return collect(explode("\n", $text ?? ''))

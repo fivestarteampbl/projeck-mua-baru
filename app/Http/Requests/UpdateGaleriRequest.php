@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Requests/UpdateGaleriRequest.php
 
 namespace App\Http\Requests;

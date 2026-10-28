@@ -1,25 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\BookingPaymentController;
 // ====================
 // PUBLIC CONTROLLERS
 // ====================
-use App\Http\Controllers\Public\BookingController;
-use App\Http\Controllers\Public\CekBookingController;
-use App\Http\Controllers\Public\CalendarController as PublicCalendarController;
-use App\Http\Controllers\Public\GaleriController as PublicGaleriController;
-use App\Http\Controllers\Public\HomeController;
-use App\Http\Controllers\Public\LayananController as PublicLayananController;
-use App\Http\Controllers\Public\PricelistController as PublicPricelistController;
-use App\Http\Controllers\Public\TestimoniController as PublicTestimoniController;
-
-// ====================
-// ADMIN CONTROLLERS
-// ====================
-use App\Http\Controllers\Admin\BookingController as AdminBookingController;
-use App\Http\Controllers\Admin\BookingPaymentController;
 use App\Http\Controllers\Admin\BookingStatusController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -28,8 +13,20 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\LayananController as AdminLayananController;
 use App\Http\Controllers\Admin\NotifikasiController;
 use App\Http\Controllers\Admin\PricelistController;
+// ====================
+// ADMIN CONTROLLERS
+// ====================
 use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController;
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Public\BookingController;
+use App\Http\Controllers\Public\CalendarController as PublicCalendarController;
+use App\Http\Controllers\Public\CekBookingController;
+use App\Http\Controllers\Public\GaleriController as PublicGaleriController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\LayananController as PublicLayananController;
+use App\Http\Controllers\Public\PricelistController as PublicPricelistController;
+use App\Http\Controllers\Public\TestimoniController as PublicTestimoniController;
+use Illuminate\Support\Facades\Route;
 
 // ======================================================
 // PUBLIC
@@ -67,7 +64,6 @@ Route::prefix('testimoni')->name('testimoni.')->group(function () {
         ->name('store');
 });
 
-
 // ======================================================
 // BOOKING PUBLIC
 // ======================================================
@@ -92,7 +88,6 @@ Route::prefix('booking')->name('booking.')->group(function () {
         ->name('hasil');
 });
 
-
 // ======================================================
 // AUTHENTICATION
 // ======================================================
@@ -113,7 +108,6 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
-
 // ======================================================
 // ADMIN
 // ======================================================
@@ -128,7 +122,6 @@ Route::prefix('admin')
         // --------------------
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
-
 
         // --------------------
         // Booking
@@ -148,7 +141,6 @@ Route::prefix('admin')
         Route::patch('/booking/{booking}/pembayaran', BookingPaymentController::class)
             ->name('booking.pembayaran');
 
-
         // --------------------
         // Kalender
         // --------------------
@@ -161,7 +153,6 @@ Route::prefix('admin')
                 ->name('data');
         });
 
-
         // --------------------
         // Layanan Kategori
         // --------------------
@@ -173,7 +164,6 @@ Route::prefix('admin')
 
         Route::put('/layanan-kategori/{layanan}', [AdminLayananController::class, 'update'])
             ->name('layanan-kategori.update');
-
 
         // --------------------
         // Pricelist
@@ -193,7 +183,6 @@ Route::prefix('admin')
                 ->name('destroy');
         });
 
-
         // --------------------
         // Galeri
         // --------------------
@@ -212,7 +201,6 @@ Route::prefix('admin')
                 ->name('destroy');
         });
 
-
         // --------------------
         // Testimoni
         // --------------------
@@ -227,7 +215,6 @@ Route::prefix('admin')
             Route::delete('/{testimoni}', [AdminTestimoniController::class, 'destroy'])
                 ->name('destroy');
         });
-
 
         // --------------------
         // Notifikasi
@@ -247,7 +234,6 @@ Route::prefix('admin')
                 ->name('destroy');
         });
 
-
         // --------------------
         // Laporan
         // --------------------
@@ -255,5 +241,4 @@ Route::prefix('admin')
             ->name('laporan.index');
     });
 
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

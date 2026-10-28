@@ -5,7 +5,6 @@ namespace App\Services;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-
 class FotoStorage
 {
     private const DISK = 'public';
@@ -23,10 +22,10 @@ class FotoStorage
         return $pathBaru;
     }
 
-    public function hapus(?string $path): void 
+    public function hapus(?string $path): void
     {
         if ($path !== null) {
-            storage::disk(self::DISK)->delete($path);
+            Storage::disk(self::DISK)->delete($path);
         }
     }
 }

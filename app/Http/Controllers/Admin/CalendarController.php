@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\JsonResponse;
@@ -21,22 +22,25 @@ class CalendarController extends Controller
         [$awal, $akhir] = $this->rentangBulan($request);
 
         $bookings = Booking::with('pricelist.layanan')
-            ->menempatiJadwal()
+            ->where('status_booking', BookingStatus::Konfirmasi)
             ->whereBetween('tanggal_acara', [$awal, $akhir])
             ->orderBy('tanggal_acara')
             ->orderBy('waktu_acara')
             ->get()
             ->map(fn (Booking $b) => [
-                'id'             => $b->id,
-                'kode_booking'   => $b->kode_booking,
-                'tanggal_acara'  => $b->tanggal_acara->toDateString(),
-                'waktu_acara'    => $b->waktu_acara,
+                'id' => $b->id,
+                'kode_booking' => $b->kode_booking,
+                'tanggal_acara' => $b->tanggal_acara->toDateString(),
+                'waktu_acara' => $b->waktu_acara,
                 'nama_pelanggan' => $b->nama_pelanggan,
-                'no_hp'          => $b->no_hp,
-                'lokasi_acara'   => $b->lokasi_acara,
+                'no_hp' => $b->no_hp,
+                'email' => $b->email,
+                'lokasi_acara' => $b->lokasi_acara,
+                'catatan_tambahan' => $b->catatan_tambahan ?? '',
+                'layanan' => $b->pricelist?->layanan?->nama_layanan ?? '-',
                 'nama_pricelist' => $b->pricelist?->nama_pricelist,
                 'status_booking' => $b->status_booking->value,
-                'manage_url'     => route('admin.booking.show', $b),
+                'manage_url' => route('admin.booking.show', $b),
             ]);
 
         return response()->json(['events' => $bookings]);

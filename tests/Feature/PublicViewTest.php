@@ -1,7 +1,9 @@
 <?php
+
 // tests/Feature/PublicViewTest.php
 
 use App\Enums\BookingStatus;
+use App\Services\BookingStatusService;
 
 test('halaman beranda menampilkan layanan aktif', function () {
     $paket = buatPaket();
@@ -42,7 +44,7 @@ test('halaman cek booking tidak error walau belum ada kode dicari', function () 
 
 test('halaman testimoni menolak token kadaluarsa dengan 403', function () {
     $booking = buatBooking();
-    $service = app(\App\Services\BookingStatusService::class);
+    $service = app(BookingStatusService::class);
 
     $service->ubah($booking, BookingStatus::Konfirmasi);
     $service->ubah($booking, BookingStatus::Selesai);
